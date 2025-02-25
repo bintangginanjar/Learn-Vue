@@ -1,8 +1,9 @@
 <script setup>
 import { onWatcherCleanup, ref, watch, watchEffect } from 'vue';
+import ProductDetail from './ProductDetail.vue';
 
 const productId = ref("food");
-const products = ref(null);
+const items = ref(null);
 
 watchEffect(async() => {
     onWatcherCleanup(() => {
@@ -11,20 +12,20 @@ watchEffect(async() => {
 
     console.log(`call watch callback`);
     const response = await fetch(`/${productId.value}.json`);
-    products.value = await response.json();
+    items.value = await response.json();
 })
 
 /*
 watch(productId, async(newVal, oldVal) => {
     console.log(`call watch callback`);
     //const response = await fetch(`/${newVal}.json`);
-    //products.value = await response.json();
+    //items.value = await response.json();
     
     if (newVal) {
         const response = await fetch(`/${newVal}.json`)
-        products.value = await response.json()
+        items.value = await response.json()
     } else {
-        products.value = null;
+        items.value = null;
     }
     
 },{
@@ -42,12 +43,15 @@ watch(productId, async(newVal, oldVal) => {
         <option value="meal">Meal</option>
     </select>
 </label>
-<template v-if="products">
+<template v-if="items">
     <h1>Product</h1>
-    <div v-for="item in products">
+    <div v-for="item in items">
+        <ProductDetail :id="item.id" :name="item.name" :price="item.price"/>
+        <!--
         <p>Id : {{ item.id }}</p>
         <p>Name : {{ item.name }}</p>
         <p>Price : {{ item.price }}</p>
+        -->
     </div>    
 </template>
 </template>

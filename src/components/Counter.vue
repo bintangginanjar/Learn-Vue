@@ -4,8 +4,10 @@
     console.log('Counter component loaded');
     //let count = ref(0);
 
+    const props = defineProps(["name", "initialCount"]);    
+
     let counter = ref({
-        count: 0,
+        count: Number(props.initialCount),
         name: "Bintang"
     });
 
@@ -27,7 +29,7 @@
 <template>
     <div>
         <h2 id="count">Counter : {{ counter.count }}</h2>
-        <h2 id="count">Name : {{ counter.name }}</h2>
+        <h2 id="count">Name : {{ props.name }}</h2>
         <button v-on:click="increment">Add Up</button>        
     </div>
 </template>
